@@ -27,5 +27,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @IsString()
   @IsOptional()
-  role?: string;
+  role?: 'teacher' | 'student' | 'admin';
 }

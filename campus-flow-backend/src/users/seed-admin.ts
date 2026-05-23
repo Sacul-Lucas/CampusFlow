@@ -10,7 +10,6 @@ export class SeedAdmin implements OnApplicationBootstrap {
     const email = process.env.ADMIN_EMAIL;
     const password = process.env.ADMIN_PASSWORD;
     const username = process.env.ADMIN_USERNAME || 'Administrador';
-    const role = process.env.ADMIN_ROLE;
 
     if (!email || !password) {
       console.warn(
@@ -31,7 +30,7 @@ export class SeedAdmin implements OnApplicationBootstrap {
       username,
       email,
       password: hashedPassword,
-      role: role || 'admin',
+      role: 'admin',
     });
 
     console.log(`Admin criado com sucesso: ${email}`);

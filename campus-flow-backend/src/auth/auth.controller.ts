@@ -11,7 +11,14 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  async login(@Body() body: { email: string; password: string }) {
+  async login(
+    @Body()
+    body: {
+      email: string;
+      password: string;
+      role: 'teacher' | 'student';
+    },
+  ) {
     if (!body.email) throw new UnauthorizedException('Insira um email válido');
     if (!body.password)
       throw new UnauthorizedException('Insira uma senha válido');
@@ -28,7 +35,13 @@ export class AuthController {
 
   @Post('register')
   async register(
-    @Body() body: { username: string; email: string; password: string },
+    @Body()
+    body: {
+      username: string;
+      email: string;
+      password: string;
+      role: 'teacher' | 'student';
+    },
   ) {
     if (!body.username)
       throw new UnauthorizedException('Insira um nome de usuário válido');
@@ -45,7 +58,7 @@ export class AuthController {
       username: body.username,
       email: body.email,
       password: hashedPassword,
-      role: 'user',
+      role: body.role,
     });
 
     const token = this.authService.generateJwt(user);

@@ -3,6 +3,8 @@ import {
     Routes,
     Route
 } from "react-router-dom";
+import { Login } from "./login/Login";
+import { Register } from "./register/Register";
 
 export const AppRoutes = () => {
     return (
@@ -35,8 +37,10 @@ export const AppRoutes = () => {
                     } 
                 />
                 <Route path="/" element={<Landing/>} />
+                
+                 */}
+                <Route path="/Register" element={<Register/>} />
                 <Route path="/Login" element={<Login/>} />
-                <Route path="/Register" element={<Register/>} /> */}
             </Routes>
         </Router>
     )
