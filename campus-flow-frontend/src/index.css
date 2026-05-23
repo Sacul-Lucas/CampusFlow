@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+@config "./tailwind.config.js";
+
 @theme {
   --animate-fade-in: fade-in 0.3s ease-in;
 

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 // import { UsersModule } from './users/users.module';
 // import { AuthModule } from './auth/auth.module';
 // import { LocationsModule } from './locations/locations.module';
@@ -19,8 +21,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
-    // UsersModule,
-    // AuthModule,
+    UsersModule,
+    AuthModule,
     // LocationsModule,
     // WeatherModule,
   ],
