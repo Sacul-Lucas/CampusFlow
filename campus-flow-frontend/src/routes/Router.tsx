@@ -10,6 +10,7 @@ import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { SettingsPage } from "./settings/Settings";
 import { Administration } from "./administration/Administration";
 import { AdminRoute } from "./utils/AdminRoute";
+import { Contents } from "./contents/Contents";
 
 export const AppRoutes = () => {
     return (
@@ -35,6 +36,15 @@ export const AppRoutes = () => {
                     element={
                         <ProtectedRoute>
                             <SettingsPage/> 
+                        </ProtectedRoute>
+                    } 
+                />
+
+                <Route 
+                    path="/Contents" 
+                    element={
+                        <ProtectedRoute>
+                            <Contents/> 
                         </ProtectedRoute>
                     } 
                 />

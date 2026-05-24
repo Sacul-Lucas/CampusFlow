@@ -50,7 +50,7 @@ export const Login = () => {
             bodyStyle="flex w-full min-h-dvh bg-[radial-gradient(circle_at_50%_75%,#002D8E,#000D28)] from-slate-900 to-blue-900" 
         >
             <img
-              className="lg:max-w-[21%]! sm:max-w-[30%]! ml-4 mt-2 absolute"
+              className="lg:max-w-[21%]! sm:max-w-[30%]! sm:block! xsm:hidden! ml-4 mt-2 absolute"
               src={campusFlowLogo}
             />
 
