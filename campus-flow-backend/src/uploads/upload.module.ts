@@ -17,6 +17,9 @@ import { Course, CourseSchema } from '@/courses/courses.schema';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'uploads'),
       serveRoot: '/uploads',
+      serveStaticOptions: {
+        extensions: ['png', 'jpg', 'jpeg', 'webp'],
+      },
     }),
     MongooseModule.forFeature([
       {

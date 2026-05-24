@@ -27,16 +27,16 @@ export class ReviewsService {
     dto: CreateReviewDto,
   ): Promise<Review> {
     // Verificar se já existe review do mesmo usuário para o mesmo curso
-    const existingReview = await this.reviewModel.findOne({
-      user: new Types.ObjectId(userId),
-      course: new Types.ObjectId(courseId),
-    });
+    // const existingReview = await this.reviewModel.findOne({
+    //   user: new Types.ObjectId(userId),
+    //   course: new Types.ObjectId(courseId),
+    // });
 
-    if (existingReview) {
-      throw new BadRequestException(
-        'Você já avaliou este curso. Atualize sua avaliação anterior.',
-      );
-    }
+    // if (existingReview) {
+    //   throw new BadRequestException(
+    //     'Você já avaliou este curso. Atualize sua avaliação anterior.',
+    //   );
+    // }
 
     return await this.reviewModel.create({
       user: new Types.ObjectId(userId),

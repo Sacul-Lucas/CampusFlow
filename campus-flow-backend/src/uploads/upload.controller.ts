@@ -88,9 +88,7 @@ export class UploadController {
     if (!destination) {
       throw new BadRequestException('Destination is required');
     }
-    // For generic upload, we just return the file info
-    // The destination would need to be handled differently if we want to organize files
-    // For now, we'll just return the basic upload result
-    return this.uploadService.uploadFile(file);
+    // For generic upload, pass the destination to keep files organized.
+    return this.uploadService.uploadFile(file, destination);
   }
 }
