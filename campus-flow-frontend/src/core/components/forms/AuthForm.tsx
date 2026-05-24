@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/incompatible-library */
 import { Button } from "../shadcnComponents/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../shadcnComponents/ui/card"
@@ -6,7 +7,7 @@ import { Input } from "../shadcnComponents/ui/input"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { formSchema } from "@/core/lib/utils/userFormSchema"
+import { formSchema, loginSchema } from "@/core/lib/utils/userFormSchema"
 import { Link } from "react-router-dom"
 import { UserRole } from "@/core/lib/utils/userRole"
 import { FaGoogle } from "react-icons/fa";
@@ -14,11 +15,10 @@ import {
   Eye,
   EyeClosed
 } from "lucide-react"
-import type z from "zod"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "../shadcnComponents/ui/select"
 
 interface AuthFormProps {
-    formAction: SubmitHandler<{ username: string; email: string; password: string; role: UserRole }>;
+    formAction: SubmitHandler<any>;
     formType: string;
     formMethod: string;
 }
@@ -28,14 +28,20 @@ export const AuthForm: React.FC<AuthFormProps> = ({
     formType,
     formMethod,
 }) => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
+    const isRegister = formType === "Register"
+    const schema = isRegister ? formSchema : loginSchema
+
+    const form = useForm<any>({
+        resolver: zodResolver(schema),
+        defaultValues: isRegister ? {
             username: "",
             email: "",
             password: "",
             confirmPassword: "",
             role: UserRole.Student,
+        } : {
+            email: "",
+            password: "",
         },
     })
 
@@ -67,7 +73,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                 />
                                 {form.formState.errors.username && (
                                     <FieldDescription className="text-red-400">
-                                        {form.formState.errors.username.message}
+                                        {String(form.formState.errors.username.message)}
                                     </FieldDescription>
                                 )}
                                 </Field>
@@ -86,7 +92,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                             />
                             {form.formState.errors.email && (
                                 <FieldDescription className="text-red-400">
-                                    {form.formState.errors.email.message}
+                                    {String(form.formState.errors.email.message)}
                                 </FieldDescription>
                             )}
                             <FieldDescription>
@@ -116,7 +122,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                             </div>
                             {form.formState.errors.password && (
                                 <FieldDescription className="text-red-400">
-                                    {form.formState.errors.password.message}
+                                    {String(form.formState.errors.password.message)}
                                 </FieldDescription>
                             )}
                             <FieldDescription>
@@ -137,7 +143,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                 />
                                 {form.formState.errors.confirmPassword && (
                                     <FieldDescription className="text-red-400">
-                                        {form.formState.errors.confirmPassword.message}
+                                        {String(form.formState.errors.confirmPassword.message)}
                                     </FieldDescription>
                                 )}
                                 <FieldDescription>Confirme sua senha, por favor.</FieldDescription>
@@ -164,7 +170,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
                                 </Select>
                                 {form.formState.errors.role && (
                                   <FieldDescription className="text-red-400">
-                                    {form.formState.errors.role.message}
+                                    {String(form.formState.errors.role.message)}
                                   </FieldDescription>
                                 )}
                                 <FieldDescription>Confirme sua senha, por favor.</FieldDescription>

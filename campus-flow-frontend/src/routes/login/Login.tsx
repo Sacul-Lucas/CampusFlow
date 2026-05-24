@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner"
 import { z } from "zod";
-import type { formSchema } from "@/core/lib/utils/userFormSchema";
+import { loginSchema } from "@/core/lib/utils/userFormSchema";
 import { AuthUserAction } from "@/core/actions/AuthUserAction";
 import { AuthForm } from "@/core/components/forms/AuthForm";
 import { DefineApp } from "@/core/components/utils/DefineApp";
+import { UserCircle } from "lucide-react";
 import campusFlowLogo from "@/assets/img/CampusFlowLogo.png"
-import appAuthIcon from "@/assets/icons/user-auth.svg";
 
 export const Login = () => {
     const navigate = useNavigate()
 
-    const handleSubmit = async (authValues: z.infer<typeof formSchema>) => {
-        const { email, password, role } = authValues;
+    const handleSubmit = async (authValues: z.infer<typeof loginSchema>) => {
+        const { email, password } = authValues;
         
-        const authRes = await AuthUserAction.execute({ email, password, role });
+        const authRes = await AuthUserAction.execute({ email, password });
         const message = authRes.data;
         
         switch (authRes.status) {
@@ -46,11 +46,11 @@ export const Login = () => {
     return (
         <DefineApp
             appTitle="CampusFlow - Login"
-            appIcon={appAuthIcon}
+            lucideIcon={UserCircle}
             bodyStyle="flex w-full min-h-dvh bg-[radial-gradient(circle_at_50%_75%,#002D8E,#000D28)] from-slate-900 to-blue-900" 
         >
             <img
-              className="lg:max-w-[21%]! sm:max-w-[45%]! absolute"
+              className="lg:max-w-[21%]! sm:max-w-[30%]! ml-4 mt-2 absolute"
               src={campusFlowLogo}
             />
 
