@@ -16,7 +16,6 @@ export class AuthController {
     body: {
       email: string;
       password: string;
-      role: 'teacher' | 'student';
     },
   ) {
     if (!body.email) throw new UnauthorizedException('Insira um email válido');

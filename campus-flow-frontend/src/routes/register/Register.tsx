@@ -6,7 +6,7 @@ import { RegisterUserAction } from "@/core/actions/RegisterUserAction";
 import { AuthForm } from "@/core/components/forms/AuthForm";
 import { DefineApp } from "@/core/components/utils/DefineApp";
 import campusFlowLogo from "@/assets/img/CampusFlowLogo.png"
-import appAuthIcon from "@/assets/icons/user-auth.svg";
+import { UserCircle } from "lucide-react";
 
 export const Register = () => {
     const navigate = useNavigate()
@@ -44,11 +44,11 @@ export const Register = () => {
     return (
         <DefineApp
             appTitle="CampusFlow - Cadastro"
-            appIcon={appAuthIcon}
             bodyStyle="flex w-full min-h-dvh bg-[radial-gradient(circle_at_50%_75%,#002D8E,#000D28)] from-slate-900 to-blue-900" 
+            lucideIcon={UserCircle}
         >
             <img
-              className="w-[18dvw] h-[25dvh] ml-2 absolute"
+              className="lg:max-w-[21%]! sm:max-w-[30%]! xsm:max-w-[20%]! ml-4 mt-2 absolute"
               src={campusFlowLogo}
             />
 

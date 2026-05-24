@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
+import { getToken } from "@/core/lib/utils/tokenValidation";
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -8,9 +9,9 @@ interface ProtectedRouteProps {
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
 }) => {
-    const jwtToken = localStorage.getItem("jwtToken");
+    const token = getToken();
     
-    if (!jwtToken) {
+    if (!token) {
       return <Navigate to="/Login" replace />;
     }
   

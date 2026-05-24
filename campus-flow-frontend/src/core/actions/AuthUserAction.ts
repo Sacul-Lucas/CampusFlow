@@ -5,7 +5,6 @@ import { API_BASE_URL } from "../../Config";
 export type AuthUserActionInput = {
   email: string;
   password: string;
-  role: 'teacher' | 'student';
 };
 
 export type AuthUserActionOutput = {
