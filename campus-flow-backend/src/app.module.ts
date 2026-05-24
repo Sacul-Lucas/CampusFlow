@@ -3,10 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-// import { UsersModule } from './users/users.module';
-// import { AuthModule } from './auth/auth.module';
-// import { LocationsModule } from './locations/locations.module';
-// import { WeatherModule } from './weather/weather.module';
+import { CoursesModule } from './courses/courses.module';
+import { ProgressModule } from './progress/progress.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { QuestionsModule } from './questions/questions.module';
+import { UploadModule } from './uploads/upload.module';
+import { SeedAdmin } from './users/seed-admin';
+import { SeedCourses } from './courses/seed-courses';
 
 @Module({
   imports: [
@@ -23,8 +26,12 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
-    // LocationsModule,
-    // WeatherModule,
+    CoursesModule,
+    ProgressModule,
+    ReviewsModule,
+    QuestionsModule,
+    UploadModule,
   ],
+  providers: [SeedAdmin, SeedCourses],
 })
 export class AppModule {}

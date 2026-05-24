@@ -48,7 +48,7 @@ export const Register = () => {
             lucideIcon={UserCircle}
         >
             <img
-              className="lg:max-w-[21%]! sm:max-w-[30%]! xsm:max-w-[20%]! ml-4 mt-2 absolute"
+              className="lg:max-w-[21%]! sm:max-w-[30%]! sm:block! xsm:hidden! ml-4 mt-2 absolute"
               src={campusFlowLogo}
             />
 
