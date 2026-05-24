@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
@@ -7,6 +8,92 @@ import { UpdateProgressDto } from './dto/update-progress.dto';
 
 @Injectable()
 export class ProgressService {
+  async create(data: {
+    userId: string;
+    courseId: string;
+    completedVideos: number;
+    progressPercent: number;
+  }): Promise<Progress> {
+    const userObjectId = new Types.ObjectId(data.userId);
+    const courseObjectId = new Types.ObjectId(data.courseId);
+
+    /**
+     * 1. Verifica curso
+     */
+    const course = await this.courseModel.findById(courseObjectId);
+
+    if (!course) {
+      throw new NotFoundException('Curso não encontrado');
+    }
+
+    /**
+     * 2. Verifica se já existe progresso (evita duplicação)
+     */
+    const existing = await this.progressModel.findOne({
+      user: userObjectId,
+      course: courseObjectId,
+    });
+
+    if (existing) {
+      return existing;
+    }
+
+    /**
+     * 3. Pega total de vídeos do curso
+     */
+    const totalVideos = this.getTotalVideosInCourse(course);
+
+    /**
+     * 4. Cria progresso inicial baseado na seed
+     */
+    const progress = await this.progressModel.create({
+      user: userObjectId,
+      course: courseObjectId,
+
+      /**
+       * seed controlada
+       */
+      completedVideos: Array.from(
+        { length: data.completedVideos },
+        (_, i) => `video-${i + 1}`,
+      ),
+
+      percentage: Math.min(data.progressPercent, 100),
+
+      currentVideo: '',
+      currentModule: '',
+      watchedMinutes: 0,
+
+      completed: data.progressPercent >= 100,
+
+      lastAccessAt: new Date(),
+    });
+
+    /**
+     * 5. Recalcula consistência real (opcional mas recomendado)
+     */
+    const realPercentage =
+      totalVideos > 0
+        ? Math.round((data.completedVideos / totalVideos) * 100)
+        : 0;
+
+    progress.percentage = Math.max(progress.percentage, realPercentage);
+
+    if (progress.percentage >= 100) {
+      progress.completed = true;
+    }
+
+    await progress.save();
+
+    /**
+     * 6. Retorno populado
+     */
+    return this.progressModel
+      .findById(progress._id)
+      .populate('user', '-password')
+      .populate('course')
+      .exec() as any;
+  }
   constructor(
     @InjectModel(Progress.name)
     private readonly progressModel: Model<Progress>,

@@ -10,6 +10,9 @@ import { QuestionsModule } from './questions/questions.module';
 import { UploadModule } from './uploads/upload.module';
 import { SeedAdmin } from './users/seed-admin';
 import { SeedCourses } from './courses/seed-courses';
+import { SeedCoursesFull } from './courses/seed-full-course';
+import { SeedReviews } from './reviews/seed-reviews';
+import { SeedProgress } from './progress/seed-progress';
 
 @Module({
   imports: [
@@ -32,6 +35,12 @@ import { SeedCourses } from './courses/seed-courses';
     QuestionsModule,
     UploadModule,
   ],
-  providers: [SeedAdmin, SeedCourses],
+  providers: [
+    SeedAdmin,
+    SeedCourses,
+    SeedCoursesFull,
+    SeedProgress,
+    SeedReviews,
+  ],
 })
 export class AppModule {}

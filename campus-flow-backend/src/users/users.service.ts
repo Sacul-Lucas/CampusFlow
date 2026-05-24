@@ -7,6 +7,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
+  async findAllStudents(): Promise<User[]> {
+    return this.userModel
+      .find({ role: 'student' })
+      .select('-password')
+      .populate('enrolledCourses')
+      .exec();
+  }
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,

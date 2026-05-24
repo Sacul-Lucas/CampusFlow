@@ -25,7 +25,7 @@ export class SeedCourses implements OnApplicationBootstrap {
     }
 
     const existingCourses = await this.coursesService.findAll();
-    if (existingCourses.length > 0) {
+    if (existingCourses.length > 1) {
       console.log('Cursos já existem. Seed ignorada.');
       return;
     }
@@ -39,8 +39,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'Aprenda JavaScript moderno do básico ao avançado',
           fullDescription:
             'Curso completo de JavaScript com ES6+, async/await, DOM e projetos reais',
-          thumbnail: '/seed/js.jpg',
-          banner: '/seed/js-banner.jpg',
+          thumbnail: 'http://localhost:3500/uploads/seed/js',
+          banner: 'http://localhost:3500/uploads/seed/js',
           level: 'beginner',
           category: 'Programação',
           tags: ['javascript', 'frontend', 'web'],
@@ -54,8 +54,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'APIs escaláveis com NestJS',
           fullDescription:
             'Aprenda arquitetura modular, autenticação JWT e MongoDB com NestJS',
-          thumbnail: '/seed/nest.jpg',
-          banner: '/seed/nest-banner.jpg',
+          thumbnail: 'http://localhost:3500/uploads/seed/nest',
+          banner: 'http://localhost:3500/uploads/seed/nest',
           level: 'intermediate',
           category: 'Backend',
           tags: ['nestjs', 'node', 'api'],
@@ -69,8 +69,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'Frontend moderno com React e Next.js',
           fullDescription:
             'SSR, SSG, React Hooks, Tailwind e projetos completos com Next.js',
-          thumbnail: '/seed/react.jpg',
-          banner: '/seed/react-banner.jpg',
+          thumbnail: 'http://localhost:3500/uploads/seed/react',
+          banner: 'http://localhost:3500/uploads/seed/react',
           level: 'intermediate',
           category: 'Frontend',
           tags: ['react', 'nextjs', 'frontend'],
@@ -84,8 +84,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'Design patterns e boas práticas',
           fullDescription:
             'Clean Architecture, SOLID, DDD e escalabilidade em sistemas reais',
-          thumbnail: '/seed/architecture.jpg',
-          banner: '/seed/architecture-banner.jpg',
+          thumbnail: 'http://localhost:3500/uploads/seed/arch',
+          banner: 'http://localhost:3500/uploads/seed/arch',
           level: 'advanced',
           category: 'Arquitetura',
           tags: ['architecture', 'clean code', 'design patterns'],

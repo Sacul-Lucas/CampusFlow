@@ -24,7 +24,7 @@ export class UploadService implements FileStorageService {
     @InjectModel(Course.name) private readonly courseModel: Model<Course>,
   ) {}
 
-  uploadFile(
+  async uploadFile(
     file: Express.Multer.File,
     destination: string = '',
   ): Promise<{
@@ -39,16 +39,26 @@ export class UploadService implements FileStorageService {
       );
     }
 
+    if (!file.path) {
+      throw new BadRequestException('Uploaded file path is missing');
+    }
+
+    const targetDir = path.join(this.uploadsBasePath, destination);
+    await fs.mkdir(targetDir, { recursive: true });
+
+    const targetPath = path.join(targetDir, file.filename);
+    await fs.rename(file.path, targetPath);
+
     const relativePath = path
       .join(destination, file.filename)
       .replace(/\\/g, '/');
 
-    return Promise.resolve({
+    return {
       url: `/uploads/${relativePath}`,
       filename: file.filename,
       size: file.size,
       mimetype: file.mimetype,
-    });
+    };
   }
 
   async deleteFile(filename: string): Promise<void> {
