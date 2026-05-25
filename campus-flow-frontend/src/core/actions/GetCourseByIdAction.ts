@@ -18,13 +18,14 @@ export type GetCourseByIdStatus =
 export class GetCourseByIdAction {
   static async execute(courseId: string): Promise<GetCourseByIdActionOutput> {
     const token = getToken()
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    }
+    if (token) headers.Authorization = `Bearer ${token}`
 
     try {
       const response = await axios.get(`${API_BASE_URL}/courses/${courseId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
+        headers,
         withCredentials: true,
       })
 

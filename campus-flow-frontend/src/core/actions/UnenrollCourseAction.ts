@@ -19,15 +19,16 @@ export type UnenrollCourseStatus =
 export class UnenrollCourseAction {
   static async execute(courseId: string): Promise<UnenrollCourseActionOutput> {
     const token = getToken()
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    }
+    if (token) headers.Authorization = `Bearer ${token}`
 
     try {
       const response = await axios.delete(
         `${API_BASE_URL}/courses/${courseId}/enroll`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         },
       )

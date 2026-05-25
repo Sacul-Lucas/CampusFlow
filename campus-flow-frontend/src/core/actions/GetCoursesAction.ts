@@ -19,20 +19,19 @@ export type GetCoursesStatus =
   | "INVALID_TOKEN"
   | "UNKNOWN"
 
-const token = getToken()
-
 export class GetCoursesAction {
   static async execute(): Promise<GetCoursesActionOutput> {
     try {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
 
       const response = await axios.get(
         `${API_BASE_URL}/courses`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-
+          headers,
           withCredentials: true,
         }
       )

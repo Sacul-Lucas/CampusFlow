@@ -34,18 +34,19 @@ export type GetLivesStatus =
   | 'ACCESS_DENIED'
   | 'UNKNOWN'
 
-const token = getToken()
-
 export class GetLivesAction {
   static async execute(): Promise<GetLivesActionOutput> {
     try {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
       const response = await axios.get(
         `${API_BASE_URL}/lives`,
         {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         },
       )

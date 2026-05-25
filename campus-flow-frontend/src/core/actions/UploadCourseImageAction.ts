@@ -3,46 +3,58 @@ import axios from "axios"
 import { API_BASE_URL } from "../../Config"
 import { getToken } from "../lib/utils/tokenValidation"
 
-export type GetEnrolledCoursesActionOutput = {
-  status: GetEnrolledCoursesStatus
+export type UploadCourseImageActionInput = {
+  courseId: string
+  file: File
+  type: "thumbnail" | "banner"
+}
+
+export type UploadCourseImageActionOutput = {
+  status: UploadCourseImageStatus
   data: any
 }
 
-export type GetEnrolledCoursesStatus =
+export type UploadCourseImageStatus =
   | "SUCCESS"
   | "TOKEN_NOT_FOUND"
   | "INVALID_TOKEN"
   | "ACCESS_DENIED"
   | "UNKNOWN"
 
-export class GetEnrolledCoursesAction {
-  static async execute(): Promise<GetEnrolledCoursesActionOutput> {
+export class UploadCourseImageAction {
+  static async execute(
+    input: UploadCourseImageActionInput,
+  ): Promise<UploadCourseImageActionOutput> {
     try {
       const token = getToken()
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      }
+      const headers: Record<string, string> = {}
       if (token) headers.Authorization = `Bearer ${token}`
 
-      const response = await axios.get(
-        `${API_BASE_URL}/courses/me/enrolled`,
-        {
-          headers,
-          withCredentials: true,
-        },
-      )
+      const formData = new FormData()
+      formData.append("file", input.file)
+      formData.append("courseId", input.courseId)
 
-      const { success, message } = response.data
-      if (success) {
+      const endpoint =
+        input.type === "thumbnail"
+          ? `${API_BASE_URL}/upload/course-thumbnail`
+          : `${API_BASE_URL}/upload/course-banner`
+
+      const response = await axios.post(endpoint, formData, {
+        headers,
+        withCredentials: true,
+      })
+
+      const { url, message } = response.data
+      if (url) {
         return {
           status: "SUCCESS",
-          data: message,
+          data: url,
         }
       }
 
       return {
         status: "UNKNOWN",
-        data: message || "Erro desconhecido",
+        data: message || "Falha ao enviar imagem do curso",
       }
     } catch (error: any) {
       const message = error?.response?.data?.message

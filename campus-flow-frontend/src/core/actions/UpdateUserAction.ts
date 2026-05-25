@@ -19,20 +19,21 @@ export type UpdateUserStatus =
   | 'EMAIL_ALREADY_EXISTS'
   | 'UNKNOWN';
 
-const token = getToken()
-
 export class UpdateUserAction {
   static async execute(input: UpdateUserActionInput, id: string): Promise<UpdateUserActionOutput> {
     try {
-        const response = await axios.put(`${API_BASE_URL}/users/${id}`, {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
+      const response = await axios.put(`${API_BASE_URL}/users/${id}`, {
             username: input.username,
             email: input.email,
             role: input.role,
         }, {
-            headers: { 
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}` 
-            },
+            headers,
             withCredentials: true,
         });
 
