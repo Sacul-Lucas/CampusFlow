@@ -14,9 +14,12 @@ export default defineConfig(({ mode }) => {
       base: isProduction ? '/' : '/CampusFlow',
       proxy: {
         '/api': {
-          target: process.env.VITE_API_URL || 'http://localhost:3500',
+          target: isProduction
+            ? 'https://campusflow-85zn.onrender.com/api'
+            : 'http://localhost:5001',
           changeOrigin: true,
         },
+
       },
     },
     plugins: [
