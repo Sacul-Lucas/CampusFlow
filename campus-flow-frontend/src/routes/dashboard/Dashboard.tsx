@@ -6,6 +6,7 @@ import { GetEnrolledCoursesAction } from "@/core/actions/GetEnrolledCoursesActio
 import { GetFeaturedCoursesAction } from "@/core/actions/GetFeaturedCoursesAction"
 import type { Course } from "@/core/lib/types/Course"
 import { decodeToken } from "@/core/lib/utils/tokenValidation"
+import { resolveMediaUrl } from "@/core/lib/utils/mediaUrl"
 import { LayoutDashboardIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -142,7 +143,7 @@ export const Dashboard = () => {
                                 cardStyle="w-full backdrop-blur-lg bg-blue-600/10 transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/20"
                               >
                               <img
-                                src={course.thumbnail}
+                                src={resolveMediaUrl(course.thumbnail)}
                                 alt={course.title}
                                 className="w-full h-32 object-cover rounded-md mb-3"
                               />
@@ -197,7 +198,7 @@ export const Dashboard = () => {
                                 cardStyle="w-full backdrop-blur-lg bg-orange-600/10 transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-500/20"
                               >
                                 <img
-                                    src={course.thumbnail}
+                                    src={resolveMediaUrl(course.thumbnail)}
                                     alt={course.title}
                                     className="w-full h-32 object-cover rounded-md mb-3"
                                 />

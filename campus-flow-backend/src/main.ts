@@ -12,11 +12,18 @@ import cors from 'cors';
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 async function bootstrap() {
+  const frontendOrigin =
+    process.env.FRONTEND_URL || 'https://campus-flow-7a5e.vercel.app';
+  const allowedOrigins = [frontendOrigin];
+  if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.push('http://localhost:5173');
+  }
+
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: "https://campus-flow-7a5e.vercel.app",
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      origin: allowedOrigins,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
     },
   });

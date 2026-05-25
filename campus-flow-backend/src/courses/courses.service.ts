@@ -22,6 +22,7 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { AddModuleDto } from './dto/add-module.dto';
 import { AddVideoDto } from './dto/add-video.dto';
 import { AddLiveDto } from './dto/add-live.dto';
+import { normalizeMediaUrl } from '@/common/utils/media-url.util';
 
 @Injectable()
 export class CoursesService {
@@ -429,40 +430,22 @@ export class CoursesService {
 
   private normalizeCourseMedia(course: any): void {
     if (!course) return;
-    const host =
-      process.env.APP_URL || `http://localhost:${process.env.PORT || 3500}`;
 
-    if (
-      course.thumbnail &&
-      typeof course.thumbnail === 'string' &&
-      course.thumbnail.startsWith('/')
-    ) {
-      course.thumbnail = `${host}${course.thumbnail}`;
+    if (course.thumbnail && typeof course.thumbnail === 'string') {
+      course.thumbnail = normalizeMediaUrl(course.thumbnail);
     }
 
-    if (
-      course.banner &&
-      typeof course.banner === 'string' &&
-      course.banner.startsWith('/')
-    ) {
-      course.banner = `${host}${course.banner}`;
+    if (course.banner && typeof course.banner === 'string') {
+      course.banner = normalizeMediaUrl(course.banner);
     }
 
     if (Array.isArray(course.lives)) {
       for (const live of course.lives) {
-        if (
-          live.thumbnail &&
-          typeof live.thumbnail === 'string' &&
-          live.thumbnail.startsWith('/')
-        ) {
-          live.thumbnail = `${host}${live.thumbnail}`;
+        if (live.thumbnail && typeof live.thumbnail === 'string') {
+          live.thumbnail = normalizeMediaUrl(live.thumbnail);
         }
-        if (
-          live.banner &&
-          typeof live.banner === 'string' &&
-          live.banner.startsWith('/')
-        ) {
-          live.banner = `${host}${live.banner}`;
+        if (live.banner && typeof live.banner === 'string') {
+          live.banner = normalizeMediaUrl(live.banner);
         }
       }
     }

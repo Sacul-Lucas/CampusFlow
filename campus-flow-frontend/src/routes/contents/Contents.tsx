@@ -6,6 +6,7 @@ import { Button } from "@/core/components/shadcnComponents/ui/button"
 import { Field } from "@/core/components/shadcnComponents/ui/field"
 import { Input } from "@/core/components/shadcnComponents/ui/input"
 import type { Course } from "@/core/lib/types/Course"
+import { resolveMediaUrl } from "@/core/lib/utils/mediaUrl"
 import { GraduationCap, FilterIcon, SearchIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -115,7 +116,7 @@ export const Contents = () => {
                                 cardDescription={`${course.totalStudents} alunos • ${course.totalVideos} vídeos`}
                             >
                                 <img
-                                    src={course.thumbnail}
+                                    src={resolveMediaUrl(course.thumbnail)}
                                     alt={course.title}
                                     className="w-full h-32 object-cover rounded-md mb-3"
                                 />
