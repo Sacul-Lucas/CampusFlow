@@ -22,8 +22,14 @@ async function bootstrap() {
       origin: 'https://campus-flow-7a5e.vercel.app', // Allow only your Vercel frontend
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true
     }),
   );
+
+  app.options("*", cors({
+    origin: "https://campus-flow-7a5e.vercel.app",
+    credentials: true
+  }));
 
   server.post(
     '/uploads/thumbnails',
