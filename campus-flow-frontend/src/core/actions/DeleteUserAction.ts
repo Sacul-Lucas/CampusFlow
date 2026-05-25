@@ -10,17 +10,18 @@ export type DeleteUserActionOutput = {
 
 export type DeleteUserStatus = 'SUCCESS' | 'USER_NOT_FOUND' | 'ACCESS_DENIED' | 'TOKEN_NOT_FOUND' | 'INVALID_TOKEN' | 'UNKNOWN';
 
-const token = getToken()
-
 export class DeleteUserAction {
     static async execute(id: string): Promise<DeleteUserActionOutput> {
         try {
+            const token = getToken()
+            const headers: Record<string, string> = {
+                'Content-Type': 'application/json',
+            }
+            if (token) headers.Authorization = `Bearer ${token}`
+
             const response = await axios.delete(`${API_BASE_URL}/users/${id}`,
             {
-                headers: {
-                    'Content-Type': 'application/json', 
-                    'Authorization': `Bearer ${token}` 
-                },
+                headers,
                 withCredentials: true
             });
 

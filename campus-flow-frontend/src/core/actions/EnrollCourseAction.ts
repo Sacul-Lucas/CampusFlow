@@ -19,16 +19,17 @@ export type EnrollCourseStatus =
 export class EnrollCourseAction {
   static async execute(courseId: string): Promise<EnrollCourseActionOutput> {
     const token = getToken()
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    }
+    if (token) headers.Authorization = `Bearer ${token}`
 
     try {
       const response = await axios.post(
         `${API_BASE_URL}/courses/${courseId}/enroll`,
         {},
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         },
       )

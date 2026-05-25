@@ -29,21 +29,22 @@ export type CreateCourseStatus =
   | "INVALID_TOKEN"
   | "UNKNOWN";
 
-const token = getToken();
-
 export class CreateCourseAction {
   static async execute(
     input: CreateCourseActionInput
   ): Promise<CreateCourseActionOutput> {
     try {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
       const response = await axios.post(
         `${API_BASE_URL}/courses`,
         input,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         }
       );

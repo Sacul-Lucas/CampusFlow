@@ -29,22 +29,23 @@ export type UpdateCourseStatus =
   | "INVALID_TOKEN"
   | "UNKNOWN";
 
-const token = getToken();
-
 export class UpdateCourseAction {
   static async execute(
     input: UpdateCourseActionInput,
     courseId: string
   ): Promise<UpdateCourseActionOutput> {
     try {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
       const response = await axios.patch(
         `${API_BASE_URL}/courses/${courseId}`,
         input,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         }
       );

@@ -1,14 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { ShieldIcon, UsersIcon, BookOpenIcon } from "lucide-react"
+import { ShieldIcon, UsersIcon, BookOpenIcon, LayersIcon } from "lucide-react"
 import { AppSidebarBody } from "@/core/components/body/AppSidebarBody"
 import { UserAdminTable } from "@/core/components/tables/UserAdminTable"
 import { CoursesAdminTable } from "@/core/components/tables/CoursesAdminTable"
+import { ModulesAdminTable } from "@/core/components/tables/ModulesAdminTable"
 
 type AdminTab =
   | "users"
   | "courses"
+  | "modules"
   | "settings"
 
 export const Administration = () => {
@@ -91,6 +93,30 @@ export const Administration = () => {
             Cursos
           </button>
 
+          <button
+            onClick={() => setActiveTab("modules")}
+            className={
+              `
+              flex
+              items-center
+              gap-2
+              rounded-lg
+              px-4
+              py-2
+              text-sm
+              transition-all
+              cursor-pointer
+              ${              activeTab === "modules"
+                ? "bg-primary text-primary-foreground"
+                : "hover:bg-muted"}
+              `
+
+            }
+          >
+            <LayersIcon className="h-4 w-4" />
+            Módulos
+          </button>
+
         </div>
       </div>
 
@@ -105,6 +131,12 @@ export const Administration = () => {
         {activeTab === "courses" && (
           <div>
             <CoursesAdminTable />
+          </div>
+        )}
+
+        {activeTab === "modules" && (
+          <div>
+            <ModulesAdminTable />
           </div>
         )}
 

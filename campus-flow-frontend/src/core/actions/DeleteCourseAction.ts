@@ -16,17 +16,19 @@ export type DeleteCourseStatus =
   | "INVALID_TOKEN"
   | "UNKNOWN";
 
-const token = getToken();
-
 export class DeleteCourseAction {
   static async execute(courseId: string): Promise<DeleteCourseActionOutput> {
     try {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
       const response = await axios.delete(
         `${API_BASE_URL}/courses/${courseId}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         }
       );

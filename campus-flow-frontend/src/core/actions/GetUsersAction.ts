@@ -10,17 +10,18 @@ export type GetUsersActionOutput = {
 
 export type GetUsersStatus = 'SUCCESS' | 'USER_NOT_FOUND' | 'ACCESS_DENIED' | 'TOKEN_NOT_FOUND' | 'INVALID_TOKEN' | 'UNKNOWN';
 
-const token = getToken()
-
 export class GetUsersAction {
     static async execute(): Promise<GetUsersActionOutput> {
         try {
+          const token = getToken()
+          const headers: Record<string, string> = {
+              'Content-Type': 'application/json',
+          }
+          if (token) headers.Authorization = `Bearer ${token}`
+
           const response = await axios.get(`${API_BASE_URL}/users`,
           {
-            headers: {
-              'Content-Type': 'application/json', 
-              'Authorization': `Bearer ${token}` 
-            },
+            headers,
             withCredentials: true
           });
 

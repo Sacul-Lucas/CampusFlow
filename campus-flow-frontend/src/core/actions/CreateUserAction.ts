@@ -20,21 +20,22 @@ export type CreateUserStatus =
   | 'EMAIL_ALREADY_EXISTS'
   | 'UNKNOWN';
 
-const token = getToken()
-
 export class CreateUserAction {
   static async execute(input: CreateUserActionInput): Promise<CreateUserActionOutput> {
     try {
-        const response = await axios.post(`${API_BASE_URL}/users`, {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
+      const response = await axios.post(`${API_BASE_URL}/users`, {
             username: input.username,
             email: input.email,
             password: input.password,
             role: input.role,
         }, {
-            headers: { 
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}` 
-            },
+            headers,
             withCredentials: true,
         });
 

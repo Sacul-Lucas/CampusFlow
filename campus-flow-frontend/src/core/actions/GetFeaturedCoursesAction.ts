@@ -14,18 +14,19 @@ export type GetFeaturedCoursesStatus =
   | "INVALID_TOKEN"
   | "UNKNOWN"
 
-const token = getToken()
-
 export class GetFeaturedCoursesAction {
   static async execute(): Promise<GetFeaturedCoursesActionOutput> {
     try {
+      const token = getToken()
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      }
+      if (token) headers.Authorization = `Bearer ${token}`
+
       const response = await axios.get(
         `${API_BASE_URL}/courses/featured`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         },
       )

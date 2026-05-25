@@ -53,6 +53,7 @@ import {
 } from "../shadcnComponents/ui/select"
 
 import type { Course } from "@/core/lib/types/Course"
+import { resolveMediaUrl } from "@/core/lib/utils/mediaUrl"
 
 import {
   CreateCourseAction,
@@ -65,6 +66,10 @@ import {
 import {
   DeleteCourseAction,
 } from "@/core/actions/DeleteCourseAction"
+
+import {
+  UploadCourseImageAction,
+} from "@/core/actions/UploadCourseImageAction"
 
 const courseFormSchema = z.object({
   title: z.string().min(3),
@@ -134,6 +139,11 @@ React.FC<AdminCourseDialogProps> = ({
       "delete" |
       null
     >(null)
+
+  const [isUploadingThumbnail, setIsUploadingThumbnail] =
+    useState(false)
+  const [isUploadingBanner, setIsUploadingBanner] =
+    useState(false)
 
   const isEditable =
     dialogAction === "edit" ||
@@ -394,6 +404,44 @@ React.FC<AdminCourseDialogProps> = ({
     }
   }
 
+  const handleCourseImageUpload = async (
+    file: File,
+    type: "thumbnail" | "banner"
+  ) => {
+    if (!course._id) return
+
+    if (type === "thumbnail") {
+      setIsUploadingThumbnail(true)
+    } else {
+      setIsUploadingBanner(true)
+    }
+
+    const response = await UploadCourseImageAction.execute({
+      courseId: course._id,
+      file,
+      type,
+    })
+
+    if (type === "thumbnail") {
+      setIsUploadingThumbnail(false)
+    } else {
+      setIsUploadingBanner(false)
+    }
+
+    if (response.status === "SUCCESS") {
+      form.setValue(type, response.data)
+      toast.success("Imagem enviada com sucesso!", {
+        className: "!bg-emerald-700 !border-emerald-800 !text-white",
+      })
+      onChange()
+      return
+    }
+
+    toast.error(response.data, {
+      className: "!bg-red-700 !border-red-800 !text-white",
+    })
+  }
+
   const deleteCourse = async () => {
 
     const response =
@@ -561,6 +609,28 @@ React.FC<AdminCourseDialogProps> = ({
                   {...form.register("thumbnail")}
                   placeholder="/uploads/seed/js.png"
                 />
+
+                {dialogAction !== "create" && isEditable && (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={isUploadingThumbnail}
+                    onChange={(event) => {
+                      const file = event.currentTarget.files?.[0]
+                      if (!file) return
+                      void handleCourseImageUpload(file, "thumbnail")
+                    }}
+                    className="mt-2"
+                  />
+                )}
+
+                {form.watch("thumbnail") && (
+                  <img
+                    src={resolveMediaUrl(form.watch("thumbnail"))}
+                    alt="Prévia da thumbnail"
+                    className="mt-2 h-24 w-full object-cover rounded-md"
+                  />
+                )}
               </Field>
 
               <Field>
@@ -573,6 +643,28 @@ React.FC<AdminCourseDialogProps> = ({
                   {...form.register("banner")}
                   placeholder="/uploads/seed/js-banner.png"
                 />
+
+                {dialogAction !== "create" && isEditable && (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={isUploadingBanner}
+                    onChange={(event) => {
+                      const file = event.currentTarget.files?.[0]
+                      if (!file) return
+                      void handleCourseImageUpload(file, "banner")
+                    }}
+                    className="mt-2"
+                  />
+                )}
+
+                {form.watch("banner") && (
+                  <img
+                    src={resolveMediaUrl(form.watch("banner"))}
+                    alt="Prévia do banner"
+                    className="mt-2 h-24 w-full object-cover rounded-md"
+                  />
+                )}
               </Field>
 
               <Field>

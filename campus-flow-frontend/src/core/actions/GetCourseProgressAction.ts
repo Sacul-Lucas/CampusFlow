@@ -18,15 +18,16 @@ export type GetCourseProgressStatus =
 export class GetCourseProgressAction {
   static async execute(courseId: string): Promise<GetCourseProgressActionOutput> {
     const token = getToken()
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    }
+    if (token) headers.Authorization = `Bearer ${token}`
 
     try {
       const response = await axios.get(
         `${API_BASE_URL}/progress/course/${courseId}`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
           withCredentials: true,
         },
       )
