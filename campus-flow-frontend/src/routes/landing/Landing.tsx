@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/core/components/shadcnComponents/ui/button"
 import {
   ContextMenu,
