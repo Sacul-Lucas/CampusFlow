@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Course } from '../courses/courses.schema';
+import { normalizeMediaUrl } from '@/common/utils/media-url.util';
 
 export interface LiveWithCourse {
   _id: string;
@@ -28,7 +29,6 @@ export class LivesService {
 
   async listLives(): Promise<LiveWithCourse[]> {
     const courses = await this.courseModel.find().lean();
-    const host = process.env.APP_URL || `http://localhost:${process.env.PORT || 3500}`;
     const lives: LiveWithCourse[] = [];
 
     for (const course of courses) {
@@ -36,9 +36,9 @@ export class LivesService {
 
       for (const live of course.lives as any[]) {
         if (!live) continue;
-        const thumbnail = live.thumbnail && live.thumbnail.startsWith('/') ? `${host}${live.thumbnail}` : live.thumbnail;
-        const banner = live.banner && live.banner.startsWith('/') ? `${host}${live.banner}` : live.banner;
-        const courseThumbnail = course.thumbnail && course.thumbnail.startsWith('/') ? `${host}${course.thumbnail}` : course.thumbnail;
+        const thumbnail = normalizeMediaUrl(live.thumbnail);
+        const banner = normalizeMediaUrl(live.banner);
+        const courseThumbnail = normalizeMediaUrl(course.thumbnail);
 
         lives.push({
           _id: live._id?.toString?.() ?? '',
@@ -74,12 +74,10 @@ export class LivesService {
     if (!course) {
       throw new NotFoundException('Curso não encontrado');
     }
-    const host = process.env.APP_URL || `http://localhost:${process.env.PORT || 3500}`;
-
     return (course.lives ?? []).map((live: any) => {
-      const thumbnail = live.thumbnail && live.thumbnail.startsWith('/') ? `${host}${live.thumbnail}` : live.thumbnail;
-      const banner = live.banner && live.banner.startsWith('/') ? `${host}${live.banner}` : live.banner;
-      const courseThumbnail = course.thumbnail && course.thumbnail.startsWith('/') ? `${host}${course.thumbnail}` : course.thumbnail;
+      const thumbnail = normalizeMediaUrl(live.thumbnail);
+      const banner = normalizeMediaUrl(live.banner);
+      const courseThumbnail = normalizeMediaUrl(course.thumbnail);
 
       return {
         _id: live._id?.toString?.() ?? '',

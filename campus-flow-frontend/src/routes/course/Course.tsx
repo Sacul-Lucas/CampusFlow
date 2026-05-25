@@ -23,6 +23,7 @@ import { UnenrollCourseAction } from "@/core/actions/UnenrollCourseAction"
 import type { Course } from "@/core/lib/types/Course"
 
 import { decodeToken } from "@/core/lib/utils/tokenValidation"
+import { resolveMediaUrl } from "@/core/lib/utils/mediaUrl"
 
 import {
   ArrowLeft,
@@ -609,10 +610,7 @@ export const CoursePage = () => {
             <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-950/5">
 
               <img
-                src={
-                  course.banner ||
-                  course.thumbnail
-                }
+                src={resolveMediaUrl(course.banner || course.thumbnail)}
                 alt={course.title}
                 className="h-72 w-full object-cover"
               />

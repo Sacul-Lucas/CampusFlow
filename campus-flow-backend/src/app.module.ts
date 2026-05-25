@@ -21,6 +21,19 @@ import { SeedProgress } from './progress/seed-progress';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+      validate: (config: Record<string, any>) => {
+        const nodeEnv = config.NODE_ENV || 'development';
+        if (
+          nodeEnv !== 'development' &&
+          nodeEnv !== 'test' &&
+          !config.API_URL
+        ) {
+          throw new Error(
+            'API_URL must be defined in non-development environments.',
+          );
+        }
+        return config;
+      },
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

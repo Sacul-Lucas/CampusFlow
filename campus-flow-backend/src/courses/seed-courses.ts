@@ -39,8 +39,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'Aprenda JavaScript moderno do básico ao avançado',
           fullDescription:
             'Curso completo de JavaScript com ES6+, async/await, DOM e projetos reais',
-          thumbnail: 'http://localhost:3500/uploads/seed/js',
-          banner: 'http://localhost:3500/uploads/seed/js',
+          thumbnail: '/uploads/seed/js',
+          banner: '/uploads/seed/js',
           shortUrl: 'https://www.youtube.com/shorts/fmVM7NT1oBo',
           level: 'beginner',
           category: 'Programação',
@@ -55,8 +55,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'APIs escaláveis com NestJS',
           fullDescription:
             'Aprenda arquitetura modular, autenticação JWT e MongoDB com NestJS',
-          thumbnail: 'http://localhost:3500/uploads/seed/nest',
-          banner: 'http://localhost:3500/uploads/seed/nest',
+          thumbnail: '/uploads/seed/nest',
+          banner: '/uploads/seed/nest',
           shortUrl: 'https://www.youtube.com/shorts/rH28fg0ZQ_M',
           level: 'intermediate',
           category: 'Backend',
@@ -71,8 +71,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'Frontend moderno com React e Next.js',
           fullDescription:
             'SSR, SSG, React Hooks, Tailwind e projetos completos com Next.js',
-          thumbnail: 'http://localhost:3500/uploads/seed/react',
-          banner: 'http://localhost:3500/uploads/seed/react',
+          thumbnail: '/uploads/seed/react',
+          banner: '/uploads/seed/react',
           shortUrl: 'https://www.youtube.com/shorts/o5LJyOUUqpk',
           level: 'intermediate',
           category: 'Frontend',
@@ -87,8 +87,8 @@ export class SeedCourses implements OnApplicationBootstrap {
           shortDescription: 'Design patterns e boas práticas',
           fullDescription:
             'Clean Architecture, SOLID, DDD e escalabilidade em sistemas reais',
-          thumbnail: 'http://localhost:3500/uploads/seed/arch',
-          banner: 'http://localhost:3500/uploads/seed/arch',
+          thumbnail: '/uploads/seed/arch',
+          banner: '/uploads/seed/arch',
           shortUrl: 'https://www.youtube.com/shorts/P1uGgEX6RuQ',
           level: 'advanced',
           category: 'Arquitetura',

@@ -61,6 +61,13 @@ $ yarn run test:cov
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
 
+### Required environment variables
+
+- `API_URL`: The public backend base URL, for example `https://campusflow-85zn.onrender.com`.
+- `FRONTEND_URL`: The frontend origin allowed by CORS, for example `https://campus-flow-7a5e.vercel.app`.
+
+The backend normalizes media URLs using `API_URL` in production. If `API_URL` is missing in non-development environments, the application will fail fast on startup.
+
 If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
 ```bash

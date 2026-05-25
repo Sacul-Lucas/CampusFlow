@@ -7,6 +7,7 @@ import type { LiveItem } from '@/core/actions/GetLivesAction'
 import { Button } from '@/core/components/shadcnComponents/ui/button'
 import { Field } from '@/core/components/shadcnComponents/ui/field'
 import { Input } from '@/core/components/shadcnComponents/ui/input'
+import { resolveMediaUrl } from '@/core/lib/utils/mediaUrl'
 import { Radio, SearchIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -126,7 +127,7 @@ export const Live = () => {
                     cardStyle="w-full backdrop-blur-lg bg-blue-600/10 transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/20"
                   >
                     <img
-                      src={live.thumbnail ?? live.banner}
+                      src={resolveMediaUrl(live.thumbnail ?? live.banner)}
                       alt={live.title}
                       className="w-full h-32 object-cover rounded-md mb-3"
                     />

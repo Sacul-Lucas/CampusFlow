@@ -19,7 +19,18 @@ export default defineConfig(({ mode }) => {
             : 'http://localhost:5001',
           changeOrigin: true,
         },
-
+        '/uploads': {
+          target: isProduction
+            ? 'https://campusflow-85zn.onrender.com'
+            : 'http://localhost:5001',
+          changeOrigin: true,
+        },
+        '/seed': {
+          target: isProduction
+            ? 'https://campusflow-85zn.onrender.com'
+            : 'http://localhost:5001',
+          changeOrigin: true,
+        },
       },
     },
     plugins: [

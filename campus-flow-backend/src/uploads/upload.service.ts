@@ -14,6 +14,7 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { UploadUtils } from './upload.utils';
 import { FileStorageService } from './upload.interface';
+import { getAppBaseUrl } from '@/common/utils/media-url.util';
 
 @Injectable()
 export class UploadService implements FileStorageService {
@@ -53,9 +54,10 @@ export class UploadService implements FileStorageService {
       .join(destination, file.filename)
       .replace(/\\/g, '/');
 
-    const port = process.env.PORT || '3500';
-    const host = process.env.APP_URL || `http://localhost:${port}`;
-    const url = `${host}/uploads/${relativePath}`;
+    const appUrl = getAppBaseUrl();
+    const url = appUrl
+      ? `${appUrl}/uploads/${relativePath}`
+      : `/uploads/${relativePath}`;
 
     return {
       url,
