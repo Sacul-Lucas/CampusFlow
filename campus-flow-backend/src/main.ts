@@ -2,11 +2,60 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
 import * as express from 'express';
+import multer from 'multer';
 import dns from 'dns';
+import { UploadService } from './uploads/upload.service';
+import { multerConfig } from './uploads/multer.config';
+
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const uploadService = app.get(UploadService);
+  const uploader = multer(multerConfig);
+  const server = app.getHttpAdapter().getInstance() as express.Express;
+
+  server.post(
+    '/uploads/thumbnails',
+    uploader.single('file'),
+    async (req, res) => {
+      if (!req.file) {
+        return res.status(400).json({ message: 'Arquivo não enviado' });
+      }
+
+      try {
+        const result = await uploadService.uploadFile(
+          req.file,
+          'lives/thumbnails',
+        );
+        return res.json(result);
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error ? error.message : 'Falha ao enviar thumbnail';
+        return res.status(500).json({
+          message,
+        });
+      }
+    },
+  );
+
+  server.post('/uploads/banners', uploader.single('file'), async (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ message: 'Arquivo não enviado' });
+    }
+
+    try {
+      const result = await uploadService.uploadFile(req.file, 'lives/banners');
+      return res.json(result);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Falha ao enviar banner';
+      return res.status(500).json({
+        message,
+      });
+    }
+  });
+
   app.use(
     '/uploads',
     express.static(join(process.cwd(), 'uploads'), {

@@ -12,6 +12,8 @@ export type CreateCourseActionInput = {
   level?: string;
   category?: string;
   tags?: string[];
+  published?: boolean;
+  hasCertificate?: boolean;
   teacher?: string;
 };
 

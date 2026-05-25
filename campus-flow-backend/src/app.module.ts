@@ -8,9 +8,11 @@ import { ProgressModule } from './progress/progress.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { QuestionsModule } from './questions/questions.module';
 import { UploadModule } from './uploads/upload.module';
+import { LivesModule } from './lives/lives.module';
 import { SeedAdmin } from './users/seed-admin';
 import { SeedCourses } from './courses/seed-courses';
 import { SeedCoursesFull } from './courses/seed-full-course';
+import { SeedLives } from './lives/seed-lives';
 import { SeedReviews } from './reviews/seed-reviews';
 import { SeedProgress } from './progress/seed-progress';
 
@@ -34,11 +36,13 @@ import { SeedProgress } from './progress/seed-progress';
     ReviewsModule,
     QuestionsModule,
     UploadModule,
+    LivesModule,
   ],
   providers: [
     SeedAdmin,
     SeedCourses,
     SeedCoursesFull,
+    SeedLives,
     SeedProgress,
     SeedReviews,
   ],

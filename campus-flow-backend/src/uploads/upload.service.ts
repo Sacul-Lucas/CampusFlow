@@ -53,8 +53,12 @@ export class UploadService implements FileStorageService {
       .join(destination, file.filename)
       .replace(/\\/g, '/');
 
+    const port = process.env.PORT || '3500';
+    const host = process.env.APP_URL || `http://localhost:${port}`;
+    const url = `${host}/uploads/${relativePath}`;
+
     return {
-      url: `/uploads/${relativePath}`,
+      url,
       filename: file.filename,
       size: file.size,
       mimetype: file.mimetype,

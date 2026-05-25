@@ -7,7 +7,7 @@ import {
     Shield, 
     Play, 
     GraduationCap, 
-    DotIcon, 
+    Radio,
     // BookOpen, 
     // BadgeQuestionMark, 
     // AwardIcon 
@@ -56,7 +56,7 @@ const items = [
     {
         title: "Aulas ao vivo",
         url: "/CampusFlow/Live",
-        icon: DotIcon,
+        icon: Radio,
     },
     // {
     //     title: "Simulados",

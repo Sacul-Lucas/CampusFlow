@@ -44,7 +44,7 @@ export class CoursesController {
 
     return {
       success: true,
-      message: course,
+      message: 'Novo curso adicionado com sucesso!',
     };
   }
 
@@ -64,11 +64,43 @@ export class CoursesController {
   }
 
   /**
+   * Obter cursos do usuário autenticado
+   */
+  @Get('me/enrolled')
+  @UseGuards(JwtAuthGuard)
+  async getMyEnrolledCourses(@Request() req: ExpressRequest) {
+    const user = (req as any).user as AuthUser;
+    const courses =
+      await this.coursesService.getStudentEnrolledCoursesWithProgress(user.id);
+
+    return {
+      success: true,
+      message: courses,
+    };
+  }
+
+  /**
+   * Obter cursos em destaque
+   */
+  @Get('featured')
+  async getFeaturedCourses() {
+    const courses = await this.coursesService.getFeaturedCourses();
+    return {
+      success: true,
+      message: courses,
+    };
+  }
+
+  /**
    * Obter um curso por ID
    */
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(id);
+    const course = await this.coursesService.findOne(id);
+    return {
+      success: true,
+      message: course,
+    };
   }
 
   /**
@@ -97,7 +129,7 @@ export class CoursesController {
 
     return {
       success: true,
-      message: updatedCourse,
+      message: 'Informações do curso atualizadas com sucesso!',
     };
   }
 
@@ -119,11 +151,11 @@ export class CoursesController {
 
     const deletedCourse = this.coursesService.delete(id);
     if (!deletedCourse)
-      throw new UnauthorizedException('Não foi possível criar o curso');
+      throw new UnauthorizedException('Não foi possível excluir o curso');
 
     return {
       success: true,
-      message: deletedCourse,
+      message: 'Curso removido com sucesso!',
     };
   }
 
@@ -139,6 +171,23 @@ export class CoursesController {
     }
 
     return this.coursesService.enrollStudent(courseId, user.id);
+  }
+
+  /**
+   * Desmatricular aluno de um curso
+   */
+  @Delete(':id/enroll')
+  @UseGuards(JwtAuthGuard)
+  async unenroll(
+    @Param('id') courseId: string,
+    @Request() req: ExpressRequest,
+  ) {
+    const user = (req as any).user as AuthUser;
+    if (user.role !== 'student') {
+      throw new BadRequestException('Apenas alunos podem cancelar a matrícula');
+    }
+
+    return this.coursesService.unenrollStudent(courseId, user.id);
   }
 
   /**

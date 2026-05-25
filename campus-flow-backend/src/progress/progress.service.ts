@@ -163,7 +163,9 @@ export class ProgressService {
     // Atualizar último acesso
     progress.lastAccessAt = new Date();
 
-    return await progress.save();
+    const saved = await progress.save();
+    await this.updateCourseAverageProgress(courseId);
+    return saved;
   }
 
   /**
@@ -186,7 +188,9 @@ export class ProgressService {
     progress.watchedMinutes += minutes;
     progress.lastAccessAt = new Date();
 
-    return await progress.save();
+    const saved = await progress.save();
+    await this.updateCourseAverageProgress(courseId);
+    return saved;
   }
 
   /**
@@ -241,7 +245,9 @@ export class ProgressService {
 
     progress.lastAccessAt = new Date();
 
-    return await progress.save();
+    const saved = await progress.save();
+    await this.updateCourseAverageProgress(courseId);
+    return saved;
   }
 
   /**
@@ -272,6 +278,29 @@ export class ProgressService {
       .populate('user', '-password')
       .populate('course')
       .sort({ lastAccessAt: -1 });
+  }
+
+  private async updateCourseAverageProgress(courseId: string): Promise<void> {
+    const progressRecords = await this.progressModel.find({
+      course: new Types.ObjectId(courseId),
+    });
+
+    if (progressRecords.length === 0) {
+      await this.courseModel.findByIdAndUpdate(courseId, {
+        averageProgress: 0,
+      });
+      return;
+    }
+
+    const totalPercent = progressRecords.reduce(
+      (sum, progress) => sum + progress.percentage,
+      0,
+    );
+
+    const average = Math.round(totalPercent / progressRecords.length);
+    await this.courseModel.findByIdAndUpdate(courseId, {
+      averageProgress: average,
+    });
   }
 
   /**
