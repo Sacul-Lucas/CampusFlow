@@ -12,24 +12,17 @@ import cors from 'cors';
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: "https://campus-flow-7a5e.vercel.app",
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    },
+  });
   const uploadService = app.get(UploadService);
   const uploader = multer(multerConfig);
   const server = app.getHttpAdapter().getInstance() as express.Express;
-
-  app.use(
-    cors({
-      origin: 'https://campus-flow-7a5e.vercel.app', // Allow only your Vercel frontend
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-      credentials: true
-    }),
-  );
-
-  app.options("*", cors({
-    origin: "https://campus-flow-7a5e.vercel.app",
-    credentials: true
-  }));
 
   server.post(
     '/uploads/thumbnails',
