@@ -13,17 +13,17 @@ import { AdminRoute } from "./utils/AdminRoute";
 import { Contents } from "./contents/Contents";
 import { CoursePage } from "./course/Course";
 import { Live } from "./live/Live";
+import { Shorts } from "./shorts/Shorts";
+import { Landing } from "./landing/Landing";
 
 export const AppRoutes = () => {
     return (
         <Router basename="/CampusFlow">
             <Routes>
-                {/* 
-
-
+                <Route path="/Register" element={<Register/>} />
+                <Route path="/Login" element={<Login/>} />
                 <Route path="/" element={<Landing/>} />
-                
-                 */}
+
                 <Route 
                     path="/Dashboard" 
                     element={
@@ -69,7 +69,7 @@ export const AppRoutes = () => {
                     }
                 />
 
-                <Route 
+                <Route
                     path="/Live"
                     element={
                         <ProtectedRoute>
@@ -78,8 +78,14 @@ export const AppRoutes = () => {
                     }
                 />
 
-                <Route path="/Register" element={<Register/>} />
-                <Route path="/Login" element={<Login/>} />
+                <Route
+                    path="/ShortVideos"
+                    element={
+                        <ProtectedRoute>
+                            <Shorts />
+                        </ProtectedRoute>
+                    }
+                />
             </Routes>
         </Router>
     )

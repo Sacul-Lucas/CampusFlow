@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { ReactNode } from "react"
+
 export interface CourseVideo {
+  [x: string]: ReactNode
   _id?: string
   title: string
   description?: string
@@ -17,6 +21,7 @@ export interface CourseModuleItem {
 }
 
 export interface CourseLive {
+  status(status: any): import("react").ReactNode
   title: string
   description?: string
   liveUrl: string
@@ -74,6 +79,8 @@ export interface Course {
   modules: CourseModuleItem[]
 
   lives: CourseLive[]
+
+  shortUrl?: string;
 
   progress: string[]
 
