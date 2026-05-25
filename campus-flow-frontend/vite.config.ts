@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': {
           target: isProduction
-            ? 'https://campusflow-85zn.onrender.com/api'
+            ? 'https://campusflow-85zn.onrender.com'
             : 'http://localhost:5001',
           changeOrigin: true,
         },
