@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 /* eslint-disable react-hooks/set-state-in-effect */
 import { AppSidebarBody } from '@/core/components/body/AppSidebarBody'
 import { AppSidebarCard } from '@/core/components/cards/AppSidebarCard'

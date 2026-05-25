@@ -116,6 +116,9 @@ export class Course extends Document {
   @Prop()
   banner!: string;
 
+  @Prop()
+  shortUrl?: string;
+
   @Prop({
     default: 'beginner',
   })

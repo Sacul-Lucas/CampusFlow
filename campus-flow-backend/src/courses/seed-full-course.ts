@@ -27,6 +27,7 @@ export class SeedCoursesFull implements OnApplicationBootstrap {
         fullDescription: 'Curso completo com módulos, vídeos e estrutura real',
         thumbnail: 'http://localhost:3500/uploads/seed/nest',
         banner: 'http://localhost:3500/uploads/seed/nest',
+        shortUrl: 'https://youtube.com/shorts/8HUoqRU_ccY',
         level: 'advanced',
         category: 'Backend',
         tags: ['nestjs', 'backend'],

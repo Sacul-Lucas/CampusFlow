@@ -77,6 +77,22 @@ const courseFormSchema = z.object({
 
   banner: z.string().optional(),
 
+  shortUrl: z
+    .string()
+    .trim()
+    .optional()
+    .refine(
+      (value) =>
+        !value ||
+        /^(https?:\/\/)?(www\.)?youtube\.com\/shorts\/[A-Za-z0-9_-]+(\?.*)?$/i.test(
+          value,
+        ),
+      {
+        message:
+          'Informe um link válido de YouTube Shorts',
+      },
+    ),
+
   category: z.string().min(2),
 
   level: z.enum([
@@ -236,6 +252,9 @@ React.FC<AdminCourseDialogProps> = ({
         banner:
           course.banner || "",
 
+        shortUrl:
+          course.shortUrl || "",
+
         category:
           course.category || "",
 
@@ -265,6 +284,8 @@ React.FC<AdminCourseDialogProps> = ({
         thumbnail: "",
 
         banner: "",
+
+        shortUrl: "",
 
         category: "",
 
@@ -526,7 +547,7 @@ React.FC<AdminCourseDialogProps> = ({
                   {...form.register(
                     "fullDescription"
                   )}
-                  className="min-h-[120px] w-full rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm outline-none transition-colors focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
+                  className="min-h-30 w-full rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm outline-none transition-colors focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
                 />
               </Field>
 
