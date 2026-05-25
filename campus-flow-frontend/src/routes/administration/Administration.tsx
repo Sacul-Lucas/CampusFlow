@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { ShieldIcon, UsersIcon, BookOpenIcon } from "lucide-react"
 import { AppSidebarBody } from "@/core/components/body/AppSidebarBody"
-import { UserAdminTable } from "@/core/components/tables/userAdminTable"
+import { UserAdminTable } from "@/core/components/tables/UserAdminTable"
 import { CoursesAdminTable } from "@/core/components/tables/CoursesAdminTable"
 
 type AdminTab =
