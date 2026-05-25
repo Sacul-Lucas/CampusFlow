@@ -11,6 +11,8 @@ import { SettingsPage } from "./settings/Settings";
 import { Administration } from "./administration/Administration";
 import { AdminRoute } from "./utils/AdminRoute";
 import { Contents } from "./contents/Contents";
+import { CoursePage } from "./course/Course";
+import { Live } from "./live/Live";
 
 export const AppRoutes = () => {
     return (
@@ -56,6 +58,24 @@ export const AppRoutes = () => {
                             <Administration/> 
                         </AdminRoute>
                     } 
+                />
+
+                <Route 
+                    path="/Course/:courseId"
+                    element={
+                        <ProtectedRoute>
+                            <CoursePage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route 
+                    path="/Live"
+                    element={
+                        <ProtectedRoute>
+                            <Live />
+                        </ProtectedRoute>
+                    }
                 />
 
                 <Route path="/Register" element={<Register/>} />

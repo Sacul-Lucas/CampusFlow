@@ -48,7 +48,7 @@ export class CourseModuleItem {
   videos!: CourseVideo[];
 }
 
-@Schema({ _id: false })
+@Schema()
 export class CourseLive {
   @Prop({
     required: true,
@@ -69,9 +69,24 @@ export class CourseLive {
   scheduledDate!: Date;
 
   @Prop({
-    default: false,
+    default: 'scheduled',
   })
-  isFinished!: boolean;
+  status!: 'scheduled' | 'live' | 'finished';
+
+  @Prop({
+    default: '',
+  })
+  thumbnail!: string;
+
+  @Prop({
+    default: '',
+  })
+  banner!: string;
+
+  @Prop({
+    default: () => new Date(),
+  })
+  createdAt!: Date;
 }
 
 @Schema({
@@ -221,6 +236,11 @@ export class Course extends Document {
     default: 0,
   })
   totalHours!: number;
+
+  @Prop({
+    default: 0,
+  })
+  averageProgress!: number;
 
   @Prop({
     default: true,

@@ -12,6 +12,8 @@ export type UpdateCourseActionInput = {
   level?: string;
   category?: string;
   tags?: string[];
+  published?: boolean;
+  hasCertificate?: boolean;
 };
 
 export type UpdateCourseActionOutput = {

@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateCourseDto {
   @IsString()
@@ -26,4 +26,12 @@ export class CreateCourseDto {
   @IsOptional()
   @IsArray()
   tags?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  published?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  hasCertificate?: boolean;
 }

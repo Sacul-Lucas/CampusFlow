@@ -1,4 +1,4 @@
-import { IsDateString, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class AddLiveDto {
   @IsString()
@@ -12,4 +12,19 @@ export class AddLiveDto {
 
   @IsDateString()
   scheduledDate!: Date;
+
+  @IsOptional()
+  @IsString()
+  thumbnail?: string;
+
+  @IsOptional()
+  @IsString()
+  banner?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: 'scheduled' | 'live' | 'finished';
+
+  @IsOptional()
+  createdAt?: Date;
 }

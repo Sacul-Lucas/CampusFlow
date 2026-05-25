@@ -1,10 +1,13 @@
 export interface CourseVideo {
+  _id?: string
   title: string
   description?: string
-  videoUrl: string
-  durationInMinutes: number
-  isPreview: boolean
+  liveUrl: string
+  scheduledDate: string
+  status: 'scheduled' | 'live' | 'finished'
   thumbnail?: string
+  banner?: string
+  createdAt?: string
 }
 
 export interface CourseModuleItem {
@@ -19,6 +22,30 @@ export interface CourseLive {
   liveUrl: string
   scheduledDate: string
   isFinished: boolean
+}
+
+export interface UserReference {
+  _id: string
+  username?: string
+}
+
+export interface CourseQuestion {
+  _id: string
+  message: string
+  answer?: string
+  isAnswered: boolean
+  user?: UserReference | string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CourseReview {
+  _id: string
+  rating: number
+  comment?: string
+  user?: UserReference | string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Course {
@@ -40,9 +67,9 @@ export interface Course {
 
   tags: string[]
 
-  teacher: string
+  teacher: string | UserReference
 
-  students: string[]
+  students: Array<string | UserReference>
 
   modules: CourseModuleItem[]
 
@@ -50,9 +77,9 @@ export interface Course {
 
   progress: string[]
 
-  reviews: string[]
+  reviews: CourseReview[]
 
-  questions: string[]
+  questions: CourseQuestion[]
 
   totalStudents: number
 
@@ -62,9 +89,13 @@ export interface Course {
 
   totalHours: number
 
+  averageProgress?: number
+
   published: boolean
 
   hasCertificate: boolean
+
+  progressPercent?: number
 
   createdAt: string
 

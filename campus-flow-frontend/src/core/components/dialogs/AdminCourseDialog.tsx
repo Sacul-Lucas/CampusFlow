@@ -73,6 +73,10 @@ const courseFormSchema = z.object({
 
   fullDescription: z.string().min(10),
 
+  thumbnail: z.string().min(1),
+
+  banner: z.string().optional(),
+
   category: z.string().min(2),
 
   level: z.enum([
@@ -80,6 +84,8 @@ const courseFormSchema = z.object({
     "intermediate",
     "advanced",
   ]),
+
+  tags: z.string().optional(),
 
   published: z.boolean(),
 
@@ -130,9 +136,15 @@ React.FC<AdminCourseDialogProps> = ({
 
       fullDescription: "",
 
+      thumbnail: "",
+
+      banner: "",
+
       category: "",
 
       level: "beginner",
+
+      tags: "",
 
       published: true,
 
@@ -218,6 +230,12 @@ React.FC<AdminCourseDialogProps> = ({
         fullDescription:
           course.fullDescription,
 
+        thumbnail:
+          course.thumbnail || "",
+
+        banner:
+          course.banner || "",
+
         category:
           course.category || "",
 
@@ -226,6 +244,9 @@ React.FC<AdminCourseDialogProps> = ({
             | "beginner"
             | "intermediate"
             | "advanced",
+
+        tags:
+          course.tags?.join(", ") || "",
 
         published:
           course.published,
@@ -241,9 +262,15 @@ React.FC<AdminCourseDialogProps> = ({
 
         fullDescription: "",
 
+        thumbnail: "",
+
+        banner: "",
+
         category: "",
 
         level: "beginner",
+
+        tags: "",
 
         published: true,
 
@@ -263,15 +290,27 @@ React.FC<AdminCourseDialogProps> = ({
         typeof courseFormSchema
       >
   ) => {
+    const payload = {
+      ...values,
+      tags: values.tags
+        ? values.tags
+            .split(',')
+            .map((tag) => tag.trim())
+            .filter(Boolean)
+        : [],
+    }
 
     const response =
       await CreateCourseAction.execute(
-        values
+        payload
       )
 
     switch (response.status) {
       case "SUCCESS":
-        toast.success(response.data)
+        toast.success(response.data, {
+          className:
+            "!bg-emerald-700 !border-emerald-800 !text-white"
+        })
 
         onChange()
 
@@ -280,7 +319,10 @@ React.FC<AdminCourseDialogProps> = ({
         break
 
       default:
-        toast.error(response.data)
+        toast.error(response.data, {
+          className:
+            "!bg-red-700 !border-red-800 !text-white"
+        })
 
         break
     }
@@ -292,16 +334,28 @@ React.FC<AdminCourseDialogProps> = ({
         typeof courseFormSchema
       >
   ) => {
+    const payload = {
+      ...values,
+      tags: values.tags
+        ? values.tags
+            .split(',')
+            .map((tag) => tag.trim())
+            .filter(Boolean)
+        : [],
+    }
 
     const response =
       await UpdateCourseAction.execute(
-        values,
+        payload,
         course._id
       )
 
     switch (response.status) {
       case "SUCCESS":
-        toast.success(response.data)
+        toast.success(response.data, {
+          className:
+            "!bg-emerald-700 !border-emerald-800 !text-white"
+        })
 
         onChange()
 
@@ -310,7 +364,10 @@ React.FC<AdminCourseDialogProps> = ({
         break
 
       default:
-        toast.error(response.data)
+        toast.error(response.data, {
+          className:
+            "!bg-red-700 !border-red-800 !text-white"
+        })
 
         break
     }
@@ -325,7 +382,10 @@ React.FC<AdminCourseDialogProps> = ({
 
     switch (response.status) {
       case "SUCCESS":
-        toast.success(response.data)
+        toast.success(response.data, {
+          className:
+            "!bg-emerald-700 !border-emerald-800 !text-white"
+        })
 
         onChange()
 
@@ -334,7 +394,10 @@ React.FC<AdminCourseDialogProps> = ({
         break
 
       default:
-        toast.error(response.data)
+        toast.error(response.data, {
+          className:
+            "!bg-red-700 !border-red-800 !text-white"
+        })
 
         break
     }
@@ -452,6 +515,86 @@ React.FC<AdminCourseDialogProps> = ({
                   )}
                 />
               </Field>
+
+              <Field>
+                <FieldLabel>
+                  Descrição completa
+                </FieldLabel>
+
+                <textarea
+                  readOnly={!isEditable}
+                  {...form.register(
+                    "fullDescription"
+                  )}
+                  className="min-h-[120px] w-full rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm outline-none transition-colors focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel>
+                  Thumbnail
+                </FieldLabel>
+
+                <Input
+                  readOnly={!isEditable}
+                  {...form.register("thumbnail")}
+                  placeholder="/uploads/seed/js.png"
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel>
+                  Banner
+                </FieldLabel>
+
+                <Input
+                  readOnly={!isEditable}
+                  {...form.register("banner")}
+                  placeholder="/uploads/seed/js-banner.png"
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel>
+                  Tags
+                </FieldLabel>
+
+                <Input
+                  readOnly={!isEditable}
+                  {...form.register("tags")}
+                  placeholder="javascript, frontend, node"
+                />
+
+                <FieldDescription>
+                  Separe as tags por vírgula.
+                </FieldDescription>
+              </Field>
+
+              <FieldGroup className="grid gap-4 md:grid-cols-2">
+                <Field>
+                  <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                    <input
+                      type="checkbox"
+                      disabled={!isEditable}
+                      {...form.register("published")}
+                      className="h-4 w-4 rounded border-slate-300 text-slate-600 focus:ring-slate-400"
+                    />
+                    Publicado
+                  </label>
+                </Field>
+
+                <Field>
+                  <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                    <input
+                      type="checkbox"
+                      disabled={!isEditable}
+                      {...form.register("hasCertificate")}
+                      className="h-4 w-4 rounded border-slate-300 text-slate-600 focus:ring-slate-400"
+                    />
+                    Possui certificado
+                  </label>
+                </Field>
+              </FieldGroup>
 
               <Field>
                 <FieldLabel>
