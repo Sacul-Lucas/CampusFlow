@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
@@ -6,6 +7,7 @@ import multer from 'multer';
 import dns from 'dns';
 import { UploadService } from './uploads/upload.service';
 import { multerConfig } from './uploads/multer.config';
+import cors from 'cors';
 
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
@@ -14,6 +16,14 @@ async function bootstrap() {
   const uploadService = app.get(UploadService);
   const uploader = multer(multerConfig);
   const server = app.getHttpAdapter().getInstance() as express.Express;
+
+  app.use(
+    cors({
+      origin: 'https://campus-flow-7a5e.vercel.app', // Allow only your Vercel frontend
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }),
+  );
 
   server.post(
     '/uploads/thumbnails',
